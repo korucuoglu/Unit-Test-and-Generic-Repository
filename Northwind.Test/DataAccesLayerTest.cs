@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Northwind.Business;
 using Northwind.Business.Abstract;
 using Northwind.Business.Concrete;
 using Northwind.DataAccesLayer.Concrete;
-using Northwind.DataAccesLayer.Abstract;
 using Northwind.Entities.Models;
 
 namespace Northwind.Test
@@ -38,7 +35,7 @@ namespace Northwind.Test
             };
 
 
-            _mockEmployeDal.Setup(i => i.GetAll(a=> a.Country=="UK")).Returns(_dbEmployees.Where(i=> i.Country=="UK").ToList());
+            _mockEmployeDal.Setup(i => i.GetList()).Returns(_dbEmployees);
 
             // [8] Burada ise Mock aracılığıyla Setup yaptık ve EmployeDal'ın GetAll fonksiyonunu çağırdığımızda bize _dbEmployees listesini vermesini istedik. 
 
@@ -47,7 +44,7 @@ namespace Northwind.Test
         }
 
         [TestMethod]
-        public void DataAccesLayer_Employee_ToList()
+        public void Tum_SehirlerListelenir()
         {
 
             #region Arange
@@ -59,8 +56,8 @@ namespace Northwind.Test
              * 
              */
 
-            IEmployeeService employeService = new EmployeeManager(_mockEmployeDal.Object); 
-            
+            IEmployeeService employeService = new EmployeeManager(_mockEmployeDal.Object);
+
             // [6] Mock ile artık elimizde bir dal var ve biz bunu verdik. 
 
 
@@ -69,7 +66,7 @@ namespace Northwind.Test
 
             #region Act
 
-            IEnumerable<Employee> employees = employeService.GetAll(i=> i.Country=="UK"); // [9] burada EmployeServis kısmındaki GetList'i çağırdık. 
+            IEnumerable<Employee> employees = employeService.GetList(); // [9] burada EmployeServis kısmındaki GetList'i çağırdık. 
 
 
 
@@ -77,7 +74,7 @@ namespace Northwind.Test
 
             #region Assert
 
-            Assert.AreEqual(2, employees.Count()); 
+            Assert.AreEqual(4, employees.Count());
             // [10] Burada da employees listesinin 4 tane ürün vereceğini belirttik. Eğer bu koşul sağlanmazsa testimiz hata verir. 
             // [11] - Invalid setup on a non-overridable member hatası almıştık. Bunun için GenericRepository'de yer alan GetList ve GetAll metodunu virtual yaptık. 
 
@@ -87,5 +84,16 @@ namespace Northwind.Test
 
 
         }
+
+
+        [TestMethod]
+        public void L_HarfiyleBaslayanSehirlerListelenir()
+        {
+            IEmployeeService employeService = new EmployeeManager(_mockEmployeDal.Object);
+            List<Employee> employees = employeService.GetEmployeeByInitial("L");
+            Assert.AreEqual(2, employees.Count());
+        }
+
+
     }
 }

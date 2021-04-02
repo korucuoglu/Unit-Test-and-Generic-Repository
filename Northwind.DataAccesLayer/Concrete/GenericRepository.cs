@@ -34,7 +34,7 @@ namespace Northwind.DataAccesLayer.Concrete
             _context.SaveChanges();
         }
 
-        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null)
+        public virtual List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             return filter == null
                          ? _context.Set<T>().ToList()

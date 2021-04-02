@@ -6,7 +6,7 @@ namespace Northwind.DataAccesLayer.Abstract
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null);
+        List<T> GetAll(Expression<Func<T, bool>> filter = null);
         List<T> GetList();
 
         void CreateOrUptade(T model);

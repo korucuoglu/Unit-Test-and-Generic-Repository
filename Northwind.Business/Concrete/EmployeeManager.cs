@@ -3,6 +3,7 @@ using Northwind.DataAccesLayer.Concrete;
 using Northwind.Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Northwind.Business.Concrete
@@ -26,9 +27,14 @@ namespace Northwind.Business.Concrete
             _employeDal.DeleteById(id);
         }
 
-        public IEnumerable<Employee> GetAll(Expression<Func<Employee, bool>> filter = null)
+        public List<Employee> GetAll(Expression<Func<Employee, bool>> filter = null)
         {
             return _employeDal.GetAll(filter);
+        }
+
+        public List<Employee> GetEmployeeByInitial(string initial)
+        {
+            return _employeDal.GetList().Where(i => i.City.ToUpper().StartsWith(initial.ToUpper())).ToList();
         }
 
         public List<Employee> GetList()
