@@ -1,4 +1,5 @@
 ﻿using Northwind.Business.Abstract;
+using Northwind.DataAccesLayer;
 using Northwind.DataAccesLayer.Concrete;
 using Northwind.Entities.Models;
 using System;
@@ -11,7 +12,8 @@ namespace Northwind.Business.Concrete
     public class EmployeeManager : IEmployeeService
     {
         private EmployeDAL _employeDal;
-        
+        private EFUnitOfWork _uow;
+
         public EmployeeManager(EmployeDAL employeDAL)
         {
             _employeDal = employeDAL;
@@ -29,6 +31,7 @@ namespace Northwind.Business.Concrete
 
         public List<Employee> GetAll(Expression<Func<Employee, bool>> filter = null)
         {
+          
             return _employeDal.GetAll(filter);
         }
 
@@ -39,7 +42,7 @@ namespace Northwind.Business.Concrete
 
         public List<Employee> GetList()
         {
-            return _employeDal.GetList();        
+            return _employeDal.GetList();
         }
     }
 }

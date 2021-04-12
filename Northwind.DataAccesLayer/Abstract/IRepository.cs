@@ -12,7 +12,9 @@ namespace Northwind.DataAccesLayer.Abstract
         void CreateOrUptade(T model);
         void DeleteById(int id);
 
-      
+        T GetById(int id);
+
+
 
 
 
