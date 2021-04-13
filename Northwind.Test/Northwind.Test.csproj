@@ -73,6 +73,7 @@
     <Compile Include="DataAccesLayerTest.cs" />
     <Compile Include="EntityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

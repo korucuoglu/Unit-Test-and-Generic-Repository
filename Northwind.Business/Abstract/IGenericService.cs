@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Northwind.DataAccesLayer.Abstract
+
+namespace Northwind.Business.Abstract
 {
-    public interface IRepository<T>: IDisposable where T:class
+    public interface IGenericService<T>: IDisposable
     {
+        // IDisposable bir Interface'dir. Biz bu sayede Inferface'yi Interface'ye kalıtım vermiş olduk. 
+
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
+
         List<T> GetList();
 
         void CreateOrUptade(T model);
         void DeleteById(int id);
 
-        T GetById(int id);
 
     }
 }

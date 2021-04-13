@@ -9,24 +9,16 @@ using System.Linq.Expressions;
 
 namespace Northwind.DataAccesLayer.Concrete
 {
-    public class GenericRepository<T>: IRepository<T> 
-        
-        where T: class
+    public class GenericRepository<T> : IRepository<T> where T : class
     {
 
-        private readonly DataContext _context;
+        public DataContext _context;
         private readonly DbSet<T> _table;
 
         public GenericRepository()
         {
 
             _context = new DataContext();
-            _table = _context.Set<T>();
-        }
-
-        public GenericRepository(DataContext context)
-        {
-            _context = context;
             _table = _context.Set<T>();
         }
 
@@ -42,6 +34,20 @@ namespace Northwind.DataAccesLayer.Concrete
             // _context.SaveChanges();
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual void Dispose(bool dispose)
+        {
+            if (dispose)
+            {
+                _context.Dispose();
+            }
+        }
+
         public virtual List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             return filter == null
@@ -54,9 +60,9 @@ namespace Northwind.DataAccesLayer.Concrete
             return _table.Find(id);
         }
 
-        public virtual List<T> GetList()
+        public List<T> GetList()
         {
-           return _table.ToList();
+            return _table.ToList();
         }
     }
 

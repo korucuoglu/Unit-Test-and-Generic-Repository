@@ -78,7 +78,7 @@ namespace Northwind.DataAccesLayer
         
         public IRepository<T> GetRepository<T>() where T : class
         {
-            return new GenericRepository<T>(_context);
+            return new GenericRepository<T>();
         }
 
 
