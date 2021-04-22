@@ -9,16 +9,16 @@ using System.Linq.Expressions;
 
 namespace Northwind.DataAccesLayer.Concrete
 {
-    public class GenericRepository<T, Context>: IRepository<T> where T: class
+    public class GenericRepository<T> : IRepository<T> where T : class
     {
 
-        private DataContext _context;
-        private DbSet<T> _table;
+        public DataContext _context;
+        private readonly DbSet<T> _table;
 
         public GenericRepository()
         {
-            _context = new DataContext();
 
+            _context = new DataContext();
             _table = _context.Set<T>();
         }
 
@@ -31,19 +31,38 @@ namespace Northwind.DataAccesLayer.Concrete
         public void DeleteById(int id)
         {
             _table.Remove(_table.Find(id));
-            _context.SaveChanges();
+          
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual void Dispose(bool dispose)
+        {
+            if (dispose)
+            {
+                _context.Dispose();
+            }
         }
 
         public virtual List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             return filter == null
-                         ? _context.Set<T>().ToList()
-                         : _context.Set<T>().Where(filter).ToList();
+                         ? _table.ToList()
+                         : _table.Where(filter).ToList();
         }
 
-        public virtual List<T> GetList()
+        public T GetById(int id)
         {
-           return _table.ToList();
+            return _table.Find(id);
+        }
+
+        public List<T> GetList()
+        {
+            return _table.ToList();
         }
     }
 

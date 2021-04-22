@@ -51,11 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICategory.cs" />
     <Compile Include="Abstract\IEmployee.cs" />
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Concrete\EmployeDAL.cs" />
     <Compile Include="Concrete\GenericRepository.cs" />
     <Compile Include="Concrete\DataContext.cs" />
+    <Compile Include="UnitOfWork\EFUnitOfWork.cs" />
+    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

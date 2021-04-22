@@ -13,6 +13,5 @@ namespace Northwind.Business.Abstract
 
         void CreateOrUptade(Employee model);
         void DeleteById(int id);
-        List<Employee> GetEmployeeByInitial(string initial);
     }
 }

@@ -1,10 +1,12 @@
 namespace Northwind.Entities.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Runtime.Serialization;
 
     public partial class Employee
     {
@@ -57,7 +59,10 @@ namespace Northwind.Entities.Models
         [StringLength(4)]
         public string Extension { get; set; }
 
+       
         [Column(TypeName = "image")]
+        [JsonIgnore]
+        [IgnoreDataMember]
         public byte[] Photo { get; set; }
 
         [Column(TypeName = "ntext")]
@@ -68,15 +73,25 @@ namespace Northwind.Entities.Models
         [StringLength(255)]
         public string PhotoPath { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees1 { get; set; }
+       
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public virtual ICollection<Employee> Employees1 { get; set; }
+        
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual Employee Employee1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual ICollection<Order> Orders { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual ICollection<Territory> Territories { get; set; }
     }
 }
