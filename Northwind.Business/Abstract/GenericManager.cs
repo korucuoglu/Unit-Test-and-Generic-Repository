@@ -58,5 +58,10 @@ namespace Northwind.Business.Abstract
         {
             return repository.GetList();
         }
+
+        public T GetById(int id)
+        {
+            return repository.GetById(id);
+        }
     }
 }

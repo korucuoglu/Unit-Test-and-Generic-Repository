@@ -22,7 +22,7 @@ namespace Northwind.MVC
             Cachefonksiyon fonksiyon = new Cachefonksiyon();
 
             // fonksiyon.CacheTemizle();
-            fonksiyon.CacheOlustur();
+            // fonksiyon.CacheOlustur();
 
         }
     }

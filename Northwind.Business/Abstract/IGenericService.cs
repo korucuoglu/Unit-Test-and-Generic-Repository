@@ -13,6 +13,8 @@ namespace Northwind.Business.Abstract
 
         List<T> GetList();
 
+        T GetById(int id);
+
         void CreateOrUptade(T model);
         void DeleteById(int id);
 

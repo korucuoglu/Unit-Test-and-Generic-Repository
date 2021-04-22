@@ -1,59 +1,48 @@
-﻿using Northwind.Business.Abstract;
+﻿using Data;
+using Northwind.Business.Abstract;
 using Northwind.DataAccesLayer.Concrete;
 using Northwind.Entities.Models;
-using Nortwind.Cache;
+using Nortwind.Cache.RedisCache;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
+using System.Linq;
 
 namespace Northwind.Business
 {
     public class Cachefonksiyon
     {
-        DefaultCacheProvider provider = new DefaultCacheProvider();
+        // DefaultCacheProvider provider = new DefaultCacheProvider();
 
+        RedisCacheManagerTwo provider = new RedisCacheManagerTwo();
+        
         public void CacheTemizle()
         {
 
-            provider.Remove(Enums.CacheKey.Employee.ToString());
+            // provider.Remove(Enums.CacheKey.Employee.ToString());
 
         }
-
         public void CacheOlustur()
         {
 
-            #region Employee
-            object employeeCache = null;
-            try
-            {
-                GenericManager<Employee> genericManager = new GenericManager<Employee>(new GenericRepository<Employee>());
+            RedisCacheManagerTwo provider = new RedisCacheManagerTwo();
 
-                var kategori = genericManager.GetList();
+            GenericManager<Employee> genericManager = new GenericManager<Employee>(new GenericRepository<Employee>());
 
-                if (kategori != null)
-                    employeeCache = kategori;
-                else
-                    throw new Exception("Kategori Cache' Doldurulamadı.");
-            }
-            catch (Exception error)
-            {
-                Trace.WriteLine("Kategori Cache' Doldurulma Sırasında Hata Oluştu.");
-                throw new Exception("Kategori Cache' Doldurulamadı.", error);
-            }
+            var list = genericManager.GetList();
 
-            provider.Set(Enums.CacheKey.Employee.ToString(), employeeCache);
-            #endregion
+
+            provider.StoreList<Employee>("Employe", list, TimeSpan.MaxValue);
+
 
         }
-
         public object EmployeeGetir()
         {
 
             object value = null;
             try
             {
-                var employees = (List<Employee>)provider.Get(Enums.CacheKey.Employee.ToString());
+                var employees = provider.GetList<Employee>(Enums.CacheKey.Employee.ToString());
 
                 if (employees != null)
                 {
@@ -70,6 +59,18 @@ namespace Northwind.Business
 
             return value;
         }
+
+        public object CacheOku(string key)
+        {
+            if (provider.IsKeyExists(key))
+            {
+                return provider.GetStrings(key);
+            }
+            return null;
+
+        }
+
+
     }
 }
 

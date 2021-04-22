@@ -25,13 +25,13 @@ namespace Northwind.DataAccesLayer.Concrete
         public void CreateOrUptade(T model)
         {
             _table.AddOrUpdate(model);
-            // _context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public void DeleteById(int id)
         {
             _table.Remove(_table.Find(id));
-            // _context.SaveChanges();
+          
         }
 
         public void Dispose()
@@ -51,8 +51,8 @@ namespace Northwind.DataAccesLayer.Concrete
         public virtual List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             return filter == null
-                         ? _context.Set<T>().ToList()
-                         : _context.Set<T>().Where(filter).ToList();
+                         ? _table.ToList()
+                         : _table.Where(filter).ToList();
         }
 
         public T GetById(int id)

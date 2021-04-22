@@ -8,7 +8,6 @@ namespace Northwind.DataAccesLayer.Abstract
     {
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
         List<T> GetList();
-
         void CreateOrUptade(T model);
         void DeleteById(int id);
 
